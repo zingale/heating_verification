@@ -11,7 +11,7 @@ from functools import partial
 
 
 def H(x):
-    return 0.1*np.exp(-(x-0.5)**2/0.1**2)
+    return 0.5*np.exp(-(x-0.5)**2/0.1**2) + 0.25*np.exp(-(x-1.0)**2/0.25**2)
 
 def rhs(x, Y, gamma=1.0):
     """
@@ -26,7 +26,7 @@ def rhs(x, Y, gamma=1.0):
 
     f[0] = H(x)*rho*(gamma - 1)/(u*denom)
     f[1] = -H(x)*(gamma - 1)/denom
-    f[2] = H(x)/(gamma * u)
+    f[2] = H(x)*(-gamma*e + e + u**2)/(u*denom)
     print(x, f, H(x))
     return f
 
@@ -47,7 +47,7 @@ def integrate(Y0, xmax, gamma, dx=0.05):
 if __name__ == "__main__":
     gamma = 1.4
 
-    x_max = 3.0
+    x_max = 2.0
 
     x, Y = integrate([1.0, 1.0, 1.0], x_max, gamma, dx=0.01)
 
